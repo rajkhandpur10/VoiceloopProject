@@ -16,8 +16,10 @@ export function CardHeader({ title, description, action }: { title: string; desc
   return <div className="mb-5 flex items-start justify-between gap-4"><div><h3 className="font-bold text-slate-950">{title}</h3>{description && <p className="mt-1 text-sm text-slate-500">{description}</p>}</div>{action}</div>;
 }
 
-export function Badge({ sentiment }: { sentiment: Review["sentiment"] }) {
-  return <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-bold capitalize ${sentiment === "positive" ? "bg-emerald-100 text-emerald-700" : "bg-red-100 text-red-700"}`}>{sentiment}</span>;
+export function Badge({ sentiment }: { sentiment: Review["sentiment"] | "neutral" | null }) {
+  if (!sentiment) return <span className="inline-flex whitespace-nowrap rounded-full bg-slate-100 px-2.5 py-1 text-xs font-bold text-slate-500">Not analyzed yet</span>;
+  const styles = sentiment === "positive" ? "bg-emerald-100 text-emerald-700" : sentiment === "negative" ? "bg-red-100 text-red-700" : "bg-slate-100 text-slate-600";
+  return <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-bold capitalize ${styles}`}>{sentiment}</span>;
 }
 
 export function InsightCard({ eyebrow, title, children }: { eyebrow: string; title: string; children: React.ReactNode }) {

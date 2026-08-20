@@ -10,14 +10,11 @@ export async function GET() {
   try {
     const supabase = getSupabaseClient();
     const { error } = await supabase
-      .from("__voiceloop_connection_check__")
+      .from("reviews")
       .select("id")
       .limit(1);
 
-    const reachedSupabase =
-      !error || error.code === "PGRST205" || error.code === "42P01";
-
-    if (!reachedSupabase) {
+    if (error) {
       return Response.json(
         { connected: false, message: "Supabase returned an unexpected response." },
         { status: 503 },
@@ -26,7 +23,7 @@ export async function GET() {
 
     return Response.json({
       connected: true,
-      message: "Supabase API reached successfully. No schema was created.",
+      message: "Supabase API and reviews table reached successfully.",
     });
   } catch {
     return Response.json(

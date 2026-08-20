@@ -3,7 +3,9 @@
 import { useCallback, useState } from "react";
 import { reviews } from "../lib/data";
 import { CloseIcon, GridIcon, MenuIcon, SearchIcon, SparkleIcon, UploadIcon } from "./icons";
-import { DashboardScreen, DigestScreen, ReviewExplorer, UploadScreen } from "./screens";
+import ReviewExplorer from "./review-explorer";
+import { DashboardScreen, DigestScreen } from "./screens";
+import UploadScreen from "./upload-screen";
 import { EvidenceDrawer } from "./ui";
 
 type View = "dashboard" | "upload" | "explorer" | "digest";
@@ -47,7 +49,7 @@ export default function VoiceLoopApp() {
         <header className="sticky top-0 z-40 flex min-h-[76px] items-center gap-4 border-b border-slate-200 bg-white/95 px-4 backdrop-blur sm:px-6"><button onClick={() => setMobileOpen(true)} className="grid size-11 shrink-0 place-items-center rounded-lg border border-slate-200 text-slate-700 md:hidden" aria-label="Open navigation" aria-expanded={mobileOpen}><MenuIcon className="size-5"/></button><div><p className="hidden text-xs font-bold uppercase tracking-wider text-slate-500 sm:block">{viewMeta[view].eyebrow}</p><h1 className="text-xl font-extrabold tracking-tight sm:text-2xl">{viewMeta[view].title}</h1></div>{view !== "upload" && <button onClick={() => navigate("upload")} className="ml-auto hidden min-h-11 items-center justify-center rounded-lg border border-slate-300 bg-white px-4 text-sm font-bold text-slate-700 hover:bg-slate-50 sm:inline-flex"><UploadIcon className="mr-2 size-4"/>Analyze new CSV</button>}</header>
         <main id="main-content" tabIndex={-1} className="mx-auto w-full max-w-[1168px] px-4 py-6 outline-none sm:px-6 sm:py-8">
           {view === "dashboard" && <DashboardScreen onTheme={setEvidenceTheme} onUpload={() => navigate("upload")}/>} 
-          {view === "upload" && <UploadScreen onComplete={() => navigate("dashboard")}/>} 
+          {view === "upload" && <UploadScreen onComplete={() => navigate("explorer")}/>} 
           {view === "explorer" && <ReviewExplorer onTheme={setEvidenceTheme}/>} 
           {view === "digest" && <DigestScreen onTheme={setEvidenceTheme}/>} 
         </main>
